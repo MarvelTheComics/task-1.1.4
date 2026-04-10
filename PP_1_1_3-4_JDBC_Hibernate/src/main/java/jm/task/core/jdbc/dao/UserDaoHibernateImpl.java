@@ -44,9 +44,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             session.getTransaction().rollback();
-            throw new HibernateException("Ошибка при добавлении пользователя", e);
+            throw new RuntimeException("Ошибка при добавлении пользователя", e);
         }
     }
 
@@ -58,9 +58,9 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = session.get(User.class, id);
             session.delete(user);
             session.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             session.getTransaction().rollback();
-            throw new HibernateException("Ошибка при удалении пользователя по id", e);
+            throw new RuntimeException("Ошибка при удалении пользователя по id", e);
         }
 
     }
@@ -74,9 +74,9 @@ public class UserDaoHibernateImpl implements UserDao {
                     .getResultList();
             session.getTransaction().commit();
             return allUsers;
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             session.getTransaction().rollback();
-            throw new HibernateException("Ошибка при формировании списка всех пользователей", e);
+            throw new RuntimeException("Ошибка при формировании списка всех пользователей", e);
         }
     }
 
@@ -88,9 +88,9 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createQuery("DELETE FROM User")
                     .executeUpdate();
             session.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             session.getTransaction().rollback();
-            throw new HibernateException("Ошибка при удалении всех пользователей", e);
+            throw new RuntimeException("Ошибка при удалении всех пользователей", e);
         }
     }
 }
